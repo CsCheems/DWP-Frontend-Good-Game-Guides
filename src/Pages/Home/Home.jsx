@@ -1,0 +1,40 @@
+import React from 'react';
+import Sidebar from '../../Layouts/Sidebar/Sidebar';
+import Navbar from '../../Layouts/Navbar/Navbar';
+import { Container, Grid, Typography } from '@mui/material';
+import './Home.css';
+
+const topGuides = [
+  { id: 1, title: "Guía de Elden Ring", image: "https://assets-prd.ignimgs.com/2021/06/12/elden-ring-button-03-1623460560664.jpg?width=300&crop=1%3A1%2Csmart&auto=webp" },
+  { id: 2, title: "Guía de The Witcher 3", image: "https://assets-prd.ignimgs.com/2021/12/08/witcher3-1638987659679.jpg?width=300&crop=1%3A1%2Csmart&auto=webp" },
+  { id: 3, title: "Guía de Minecraft", image: "https://i.pinimg.com/474x/55/c6/d7/55c6d740a19d9ae2dbe8a05b107bab55.jpg" },
+  { id: 4, title: "Guía de Age of Empires II", image: "https://news.xbox.com/es-latam/wp-content/uploads/sites/4/HERO-35-hero-small.jpg" },
+];
+
+const Home = () => {
+  return (
+    <div className="home-container">
+      <Navbar/>
+      <Sidebar />
+      <Container className="home-content">
+        <Typography variant="h4" gutterBottom className="home-title">
+          Guías Más Valoradas
+        </Typography>
+        <Grid container spacing={3} justifyContent="center">
+          {topGuides.map((guide) => (
+            <Grid item xs={12} sm={6} md={4} lg={3} key={guide.id}>
+              <div className="home-card">
+                <img className="home-card-media" src={guide.image} alt={guide.title} />
+                <div className="home-card-content">
+                  <Typography variant="h6" noWrap>{guide.title}</Typography>
+                </div>
+              </div>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+    </div>
+  );
+};
+
+export default Home;

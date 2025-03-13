@@ -1,0 +1,28 @@
+.guia-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    transition: background 0.2s ease-in-out;
+  }
+  
+  .guia-item:hover {
+    background: #f5f5f5;
+  }
+  
+  .guia-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+  }
+  
+  .guia-link {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+  }
+  
+  .guia-link:hover {
+    text-decoration: underline;
+  }
+  

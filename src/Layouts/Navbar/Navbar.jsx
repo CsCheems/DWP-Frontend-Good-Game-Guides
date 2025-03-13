@@ -49,12 +49,9 @@ const Logo = styled('img')({
   cursor: 'pointer',
 });
 
-//Navbar
+
 const Navbar = () => {
 
-  //const { isLogOn, userName, logout } = useContext(AuthContext);
-
-  //simulacion
   const isLogOn = true;
   const userName = "Chema"; 
   const userAvatar = "/avatar.png"; 
@@ -65,7 +62,6 @@ const Navbar = () => {
         <Container maxWidth="lg">
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             
-            {/* Logo y botones de navegación a la izquierda */}
             <Box sx={{ flex: 3, display: 'flex', alignItems: 'center', gap: 2 }}>
               <Link to="/">
                 <Logo src="/logo.png" alt="Good Game Guides" />
@@ -84,7 +80,6 @@ const Navbar = () => {
               </StyledButton>
             </Box>
 
-            {/* Menú con la barra de búsqueda centrada */}
             <Box sx={{ flex: 6, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2 }}>
               <SearchInput
                 variant="outlined"
@@ -94,7 +89,6 @@ const Navbar = () => {
               />
             </Box>
 
-            {/* Botones de Login y Registro alineados a la derecha */}
             <Box sx={{ flex: 2, display: 'flex', justifyContent: 'flex-end', gap: 4 }}> {/* Aquí cambié gap: 2 a gap: 4 */}
               {!isLogOn ? (
                 <>
