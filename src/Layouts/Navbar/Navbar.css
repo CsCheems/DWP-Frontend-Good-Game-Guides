@@ -1,0 +1,46 @@
+/* styles.css */
+
+.StyledAppBar {
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    background-color: #9146FF;
+    padding: 5px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1100;
+  }
+  
+  .StyledBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .StyledButton:hover {
+    background-color: #9B4D9B;
+    transition: background-color 0.3s ease;
+  }
+  
+  .SearchInput {
+    background-color: white;
+    border-radius: 5px;
+  }
+  
+  .SearchInput .MuiOutlinedInput-root fieldset {
+    border-color: #ccc;
+  }
+  
+  .SearchInput .MuiOutlinedInput-root:hover fieldset {
+    border-color: #bbb;
+  }
+  
+  .SearchInput .MuiOutlinedInput-root.Mui-focused fieldset {
+    border-color: #844184;
+  }
+  
+  .Logo {
+    height: 50px;
+    cursor: pointer;
+  }
+  

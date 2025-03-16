@@ -1,37 +1,41 @@
 .home-container {
-    display: flex;
-  }
-  
-  .home-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-    margin-top: 100px;
-  }
-  
-  .home-title {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .home-card {
-    height: 400px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 3;
-    border-radius: 8px;
-    border: 2px solid;
-  }
-  
-  .home-card-media {
-    height: 250px;
-    object-fit: cover;
-    border-radius: 8px;
-  }
-  
-  .home-card-content {
-    flex-grow: 1;
-    padding: 16px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la pantalla */
+}
+
+.home-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  margin-top: 100px; 
+  overflow: hidden; /* Previene desbordamientos si es necesario */
+}
+
+.home-carousel {
+  width: 100%; /* Asegura que el slider ocupe todo el ancho disponible */
+  margin-bottom: 20px; /* Espacio debajo del carousel */
+}
+
+.home-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.home-card-media {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.home-card-content {
+  padding: 10px;
+}
+
+.home-title1, .home-title2 {
+  margin-bottom: 20px;
+  text-align: center;
+}

@@ -4,6 +4,7 @@ import Home from './Pages/Home/Home';
 import User from './Pages/User/User';
 import Contact from './Pages/Contact/Contact';
 import InidiceGuias from './Pages/Guias/IndiceGuias';
+import IndiceForo from './Pages/Foro/IndiceForo';
 
 
 const AppRoutes = () => {
@@ -14,6 +15,7 @@ const AppRoutes = () => {
                 <Route path='/contacto' element={<Contact/>}/>
                 <Route path='/perfil' element={<User/>}/>
                 <Route path='/guias' element={<InidiceGuias/>}/>
+                <Route path='/foro' element={<IndiceForo/>}/>
             </Routes>
         </BrowserRouter>
     );

@@ -1,0 +1,72 @@
+.contacto-container {
+    margin-top: 100px;
+    max-width: 1200px;
+    background: transparent;
+    padding: 10px;
+  }
+  
+  .contacto-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #fff;
+  }
+  
+  .contacto-info {
+    color: #fff;
+    text-align: left;
+  }
+  
+  .contacto-info ul {
+    padding-left: 20px;
+  }
+  
+  .contacto-datos {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  
+  /* Estilos del formulario */
+  .contacto-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Inputs y labels blancos */
+  .contacto-input label {
+    color: #A970FF;
+  }
+  
+  .contacto-input input,
+  .contacto-input textarea {
+    color: #fff;
+    border: 1px solid #A970FF;
+  }
+  
+  .contacto-input input::placeholder,
+  .contacto-input textarea::placeholder {
+    color: #A970FF;
+  }
+  
+  /* Color del borde cuando se selecciona el input */
+  .contacto-input .MuiOutlinedInput-root {
+    & fieldset {
+      border-color: #A970FF;
+    }
+    &:hover fieldset {
+      border-color: #A970FF;
+    }
+    &.Mui-focused fieldset {
+      border-color: #A970FF;
+    }
+  }
+  
+  .contacto-button {
+    background-color: #A970FF;
+    color: white;
+  }
+  
+  .contacto-button:hover {
+    background-color: #903CB3;
+  }
+  

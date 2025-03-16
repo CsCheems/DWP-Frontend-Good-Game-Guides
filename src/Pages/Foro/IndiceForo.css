@@ -1,0 +1,21 @@
+.foros-container {
+    width: 100%;
+    max-width: 800px;
+    margin-top: 100px;
+    background: transparent;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .foros-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #fff;
+  }
+  
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
