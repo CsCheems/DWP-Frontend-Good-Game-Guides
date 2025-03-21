@@ -1,12 +1,10 @@
 import React from 'react';
-import Sidebar from '../../Layouts/Sidebar/Sidebar';
 import Navbar from '../../Layouts/Navbar/Navbar';
 import { Container, Grid, Typography } from '@mui/material';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./Home.css"; // Asegúrate de que la ruta sea correcta
-
+import "./Home.css";
 const topGuides = [
   { id: 1, title: "Guía de Elden Ring", image: "https://assets-prd.ignimgs.com/2021/06/12/elden-ring-button-03-1623460560664.jpg?width=300&crop=1%3A1%2Csmart&auto=webp" },
   { id: 2, title: "Guía de The Witcher 3", image: "https://assets-prd.ignimgs.com/2021/12/08/witcher3-1638987659679.jpg?width=300&crop=1%3A1%2Csmart&auto=webp" },
@@ -44,7 +42,6 @@ const Home = () => {
   return (
     <div className="home-container">
       <Navbar/>
-      <Sidebar />
       <Container className="home-content">
       <Typography variant="h4" className="home-title1">
           Guías Más Valoradas
