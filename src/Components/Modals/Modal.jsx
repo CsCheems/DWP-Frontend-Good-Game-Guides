@@ -1,8 +1,33 @@
+
 import React, { useState } from "react";
 import { Modal, Box, Button, TextField, Stack } from "@mui/material";
 
 const ModalAuth = ({ open, handleClose }) => {
   const [isLogin, setIsLogin] = useState(true);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [dob, setDob] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [lastLogin, setLastLogin] = useState("");
+
+  const handleSubmitLog = async () => {
+    e.preventDefault();
+    try {
+      const res = await login(username, password);
+      if(res.statusCode === 201){
+        //cerrar modal
+        //actuilzar estado de navbar
+      }
+    } catch (error) {
+      if (error.message) {
+        setError(error.message);
+      } else {
+        setError("Error desconocido");
+      }
+    }
+    
+  }  
 
   return (
     <>
@@ -26,16 +51,13 @@ const ModalAuth = ({ open, handleClose }) => {
           borderRadius: 2,
         }}
       >
-        {/* Botones para alternar entre Login y Registro */}
         <Stack direction="row" spacing={2} justifyContent="center" mb={3}>
           <Button
             variant={isLogin ? "contained" : "outlined"}
             onClick={() => setIsLogin(true)}
             sx={{
                 color: "white",
-                background: isLogin
-                ? "linear-gradient(90deg, rgba(30,69,95,1) 9%, rgba(0,186,130,1) 84%)"
-                : "transparent",
+                background: isLogin ? "linear-gradient(90deg, rgba(30,69,95,1) 9%, rgba(0,186,130,1) 84%)" : "transparent",
                 border: "none",
             }}
           >
@@ -45,10 +67,8 @@ const ModalAuth = ({ open, handleClose }) => {
             variant={!isLogin ? "contained" : "outlined"}
             onClick={() => setIsLogin(false)}
             sx={{
-                color: "white",
-                background: !isLogin
-                ? "linear-gradient(90deg, rgba(30,69,95,1) 9%, rgba(0,186,130,1) 84%)"
-                : "transparent",
+                color: "white", 
+                background: !isLogin ? "linear-gradient(90deg, rgba(30,69,95,1) 9%, rgba(0,186,130,1) 84%)" : "transparent",
                 border: "none",
             }}
             >
@@ -56,7 +76,6 @@ const ModalAuth = ({ open, handleClose }) => {
           </Button>
         </Stack>
 
-        {/* Contenido del Modal */}
         {isLogin ? (
           <LoginForm />
         ) : (
@@ -75,22 +94,21 @@ const LoginForm = () => (
     <TextField 
     fullWidth 
     label="Usuario" 
+    name="username"
     margin="normal" 
     sx={{
-        bgcolor:"white",
-        borderRadius: "8px",
-        border: "none",
+      bgcolor:"white", borderRadius: "8px", border: "none",
     }}
+
     />
     <TextField 
     fullWidth 
-    label="Contraseña" 
+    label="Contraseña"
+    name="password"
     type="password" 
     margin="normal" 
     sx={{
-        bgcolor:"white",
-        borderRadius: "8px",
-        border: "none",
+      bgcolor:"white", borderRadius: "8px", border: "none",
     }}
     />
     <Button 
@@ -99,15 +117,15 @@ const LoginForm = () => (
     sx={{ 
         mt: 2, 
         background: "linear-gradient(90deg, rgba(30,69,95,1) 9%, rgba(0,186,130,1) 84%)",
-    }}>
+    }}
+    >
       Iniciar Sesión
     </Button>
     <Button 
     fullWidth 
     variant="text" 
     sx={{ 
-        mt: 2, 
-        color: "white", 
+        mt: 2, color: "white", 
     }}
     >
       Recuperar Contraseña
@@ -118,46 +136,34 @@ const LoginForm = () => (
 // Formulario de Registro
 const RegisterForm = () => (
   <Box>
-    <TextField fullWidth label="Correo Electrónico" type="email" margin="normal" 
+    <TextField fullWidth label="Correo Electrónico" name="email" type="email" margin="normal" 
     sx={{
-        bgcolor:"white",
-        borderRadius: "8px",
-        border: "none",
+        bgcolor:"white", borderRadius: "8px", border: "none",
     }}
     />
-    <TextField fullWidth label="Teléfono" type="tel" margin="normal" 
+    <TextField fullWidth label="Teléfono" name="phone" type="tel" margin="normal" 
     sx={{
-        bgcolor:"white",
-        borderRadius: "8px",
-        border: "none",
+      bgcolor:"white", borderRadius: "8px", border: "none",
     }}
     />
-    <TextField fullWidth label="Fecha de Nacimiento" type="date" margin="normal" InputLabelProps={{ shrink: true }} 
+    <TextField fullWidth label="Fecha de Nacimiento" name="dob" type="date" margin="normal" InputLabelProps={{ shrink: true }} 
     sx={{
-        bgcolor:"white",
-        borderRadius: "8px",
-        border: "none",
+      bgcolor:"white", borderRadius: "8px", border: "none",
     }}
     />
-    <TextField fullWidth label="Nombre de Usuario" margin="normal" 
+    <TextField fullWidth label="Nombre de Usuario" name="username" margin="normal" 
     sx={{
-        bgcolor:"white",
-        borderRadius: "8px",
-        border: "none",
+      bgcolor:"white", borderRadius: "8px", border: "none",
     }}
     />
-    <TextField fullWidth label="Contraseña" type="password" margin="normal" 
+    <TextField fullWidth label="Contraseña" name="password" type="password" margin="normal" 
     sx={{
-        bgcolor:"white",
-        borderRadius: "8px",
-        border: "none",
+      bgcolor:"white", borderRadius: "8px", border: "none",
     }}
     />
     <Button fullWidth variant="contained" 
         sx={{ 
-            mt: 2, 
-            color: "white",
-            background: "linear-gradient(90deg, rgba(30,69,95,1) 9%, rgba(0,186,130,1) 84%)",
+            mt: 2, color: "white", background: "linear-gradient(90deg, rgba(30,69,95,1) 9%, rgba(0,186,130,1) 84%)",
         }}
     >
       Registrarse
