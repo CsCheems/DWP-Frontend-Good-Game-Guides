@@ -3,11 +3,11 @@ import React, { useEffect } from "react";
 
 export default function Banner({ juegoBanner }) {
   useEffect(() => {
-    console.log("juego banner:", juegoBanner);
+    
   });
 
   return (
-    <Box position="relative" width={800} height={500}>
+    <Box position="relative" width={870} height={500}>
       {/* Nombre del juego */}
       
 

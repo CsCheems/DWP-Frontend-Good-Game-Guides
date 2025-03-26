@@ -8,3 +8,5 @@ const rawgApi = axios.create({
 export const obtenerGenerosLista = rawgApi.get('/genres?key='+key);
 
 export const obtenerJuegos = rawgApi.get('/games?key='+key);
+
+export const obtenerGeneroPorId = (id) => rawgApi.get('/games?key='+key+'&genres='+id);

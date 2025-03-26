@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { obtenerGenerosLista } from "../../servicios/RawgAPI";
 import { Box, Typography, Avatar } from "@mui/material";
 
-const Sidebar = () => {
+const Sidebar = ({generoId}) => {
   const [generoLista, setGeneroLista] = useState([]);
   const [indiceActivo, setIndiceActivo] = useState(null);
 
@@ -24,7 +24,7 @@ const Sidebar = () => {
       {generoLista.map((item, index) => (
         <Box
           key={index}
-          onClick={() => setIndiceActivo(index)}
+          onClick={() => {setIndiceActivo(index); generoId(item.id)}}
           display="flex"
           alignItems="center"
           gap={2}
