@@ -17,7 +17,7 @@ const Home = () => {
 
   useEffect(() => {
       obtenerListaJuegos();
-      obtenerListaPorGenero(51);
+      obtenerListaPorGenero(4);
     }, []);
 
   const obtenerListaJuegos = () => {
