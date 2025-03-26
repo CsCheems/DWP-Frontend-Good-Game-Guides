@@ -10,12 +10,14 @@ import ListaGenero from '../../Components/ListaGenero/ListaGenero';
 
 const Home = () => {
 
-  const [listaJuegos, setListaJuegos] = useState([]);
-  const [generoId, setGeneroId] = useState(null);
+  const [listaJuegos, setListaJuegos] = useState();
+  const [listaJuegosPorGenero, setListaJuegosPorGenero]=useState([]);
+  const [nombreGenero, setNombreGenero]=useState('Action');
   const [randomNumber, setRandomNumber] = useState(Math.floor(Math.random() * 21));
 
   useEffect(() => {
       obtenerListaJuegos();
+      obtenerListaPorGenero(51);
     }, []);
 
   const obtenerListaJuegos = () => {
@@ -25,9 +27,8 @@ const Home = () => {
   };
 
   const obtenerListaPorGenero = (id) => {
-    console.log('Genero ID: ', id);
-    obtenerGeneroPorId(4).then((resp) => {
-      console.log('Lista de juegos por genero: ', resp.data.results);
+    obtenerGeneroPorId(id).then((resp) => {
+      setListaJuegosPorGenero(resp.data.results);
     })
   }
 
@@ -38,14 +39,20 @@ const Home = () => {
       <Container sx={{marginTop:"75px"}}>
         <Grid  container spacing={2}>
           <Grid item xs={3}>
-            <Sidebar generoId={(generoId)=>obtenerListaPorGenero(generoId)}/>
+            <Sidebar 
+            generoId={(generoId)=>obtenerListaPorGenero(generoId)}
+            nombreGenero={(name)=>setNombreGenero(name)}
+            />
           </Grid >
           <Grid item xs={9} >
             {listaJuegos?.length>0?
             <>
             <Banner juegoBanner={listaJuegos[randomNumber]} randomNumber={randomNumber}/>
             <GuiasPopulares guiasPopulares={listaJuegos}/>
-            <ListaGenero listaJuegosPorGenero={listaJuegos}/>
+            <ListaGenero 
+              listaJuegosPorGenero={listaJuegosPorGenero}
+              nombreGenero={nombreGenero}
+            />
             </>
             :null}
           </Grid >

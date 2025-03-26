@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react'
 import { Avatar, Box, Grid, Typography } from "@mui/material";
 
-export default function ListaGenero({listaJuegosPorGenero}) {
+export default function ListaGenero({listaJuegosPorGenero, nombreGenero}) {
 
     useEffect(() => {
 
-        console.log(listaJuegosPorGenero);
+        console.log(listaJuegosPorGenero, nombreGenero);
     }, [])
     return (
         <Box>
             <Typography sx={{marginTop:"25px", fontWeight:"bold", textAlign:"left"}} variant="h5" gutterBottom>
-                Otras Guias
+                {nombreGenero}
             </Typography>
 
             <Grid container spacing={2} sx={{marginTop:"10px", justifyContent:'center'}}>
@@ -41,7 +41,7 @@ export default function ListaGenero({listaJuegosPorGenero}) {
                             }}
                             variant="rounded"
                           />
-                          <Typography textAlign="center" sx={{ padding: "8px", fontWeight: "bold", fontSize: "1.1rem" }} mt={1}>
+                          <Typography textAlign="center" sx={{ padding: "8px", fontWeight: "bold", fontSize: "0.8rem" }} mt={1}>
                             {item.name}{' '}
                             <Typography
                                 component="span"
