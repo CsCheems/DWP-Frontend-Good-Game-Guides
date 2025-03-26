@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "./Navbar.css";
+//import "./Navbar.css";
 import ModalAuth from "../../Components/Modals/Modal";
 
 const Navbar = () => {

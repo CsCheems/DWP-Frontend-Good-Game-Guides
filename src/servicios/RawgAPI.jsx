@@ -1,0 +1,10 @@
+const key = "2c31e02ea2824b4cab63f4b647c3cfa2";
+import axios from 'axios';
+
+const rawgApi = axios.create({
+    baseURL: 'https://api.rawg.io/api/'
+})
+
+export const obtenerGenerosLista = rawgApi.get('/genres?key='+key);
+
+export const obtenerJuegos = rawgApi.get('/games?key='+key);

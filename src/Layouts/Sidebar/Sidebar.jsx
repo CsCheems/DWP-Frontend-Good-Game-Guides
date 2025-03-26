@@ -1,81 +1,78 @@
-import React, { useState } from "react";
-import { Drawer, List, ListItem, ListItemText, IconButton, Divider, Typography } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import { positions, styled } from "@mui/system";
-
-const guides = [
-  { id: 1, title: "Guía de Elden Ring" },
-  { id: 2, title: "Secretos de The Witcher 3" },
-  { id: 3, title: "Construcciones en Minecraft" },
-  { id: 4, title: "Tácticas en Age of Empires IV" },
-];
-
-// Estilos personalizados
-const StyledDrawer = styled(Drawer)({
-  '& .MuiDrawer-paper': {
-    backgroundColor: '#844184', 
-    color: 'white', 
-    width: 250,
-    padding: 16,
-  }
-});
-
-const StyledTypography = styled(Typography)({
-  color: 'white', 
-});
-
-const StyledListItem = styled(ListItem)({
-  '&:hover': {
-    backgroundColor: '#844184', 
-  },
-});
-
-const StyledDivider = styled(Divider)({
-  margin: '8px 0',
-  backgroundColor: 'white', 
-});
-
-const StyledIconButton = styled(IconButton)(() => ({
-    marginTop: '60px',
-    position: 'fixed',  // Fija el botón en la parte superior
-    top: 16,            // Ajusta la distancia desde la parte superior de la página
-    left: 16,           // Ajusta la distancia desde la parte izquierda
-    zIndex: 1000,       // Asegura que el botón esté por encima de otros elementos
-    '& svg': {
-      color: 'white',
-    },
-  }));
+import React, { useEffect, useState } from "react";
+import { obtenerGenerosLista } from "../../servicios/RawgAPI";
+import { Box, Typography, Avatar } from "@mui/material";
 
 const Sidebar = () => {
-  const [open, setOpen] = useState(false);
+  const [generoLista, setGeneroLista] = useState([]);
+  const [indiceActivo, setIndiceActivo] = useState(null);
 
-  const toggleDrawer = () => {
-    setOpen(!open);
+  useEffect(() => {
+    obtenerGeneros();
+  }, []);
+
+  const obtenerGeneros = () => {
+    obtenerGenerosLista.then((resp) => {
+      setGeneroLista(resp.data.results);
+    });
   };
 
   return (
-    <>
-      <StyledIconButton onClick={toggleDrawer}>
-        <MenuIcon />
-      </StyledIconButton>
-      <StyledDrawer
-        anchor="left"
-        open={open}
-        onClose={toggleDrawer}
-      >
-        <div>
-          <StyledTypography variant="h6">Últimas Guías</StyledTypography>
-          <StyledDivider />
-          <List>
-            {guides.map((guide) => (
-              <StyledListItem button key={guide.id}>
-                <ListItemText primary={guide.title} sx={{ color: 'white'}} />
-              </StyledListItem>
-            ))}
-          </List>
-        </div>
-      </StyledDrawer>
-    </>
+    <Box>
+      <Typography variant="h5" sx={{ fontWeight: "bold" }} gutterBottom>
+        Géneros
+      </Typography>
+      {generoLista.map((item, index) => (
+        <Box
+          key={index}
+          onClick={() => setIndiceActivo(index)}
+          display="flex"
+          alignItems="center"
+          gap={2}
+          mb={1}
+          sx={{
+            borderRadius: "8px",
+            padding: "8px",
+            cursor: "pointer",
+            transition: "background-color 0.3s",
+            backgroundColor: indiceActivo === index ? "#810AAC" : "transparent",
+            color: indiceActivo === index ? "#fff" : "inherit",
+            "& .MuiAvatar-root": {
+              transform: indiceActivo === index ? "scale(1.1)" : "scale(1)",
+              transition: "transform 0.3s",
+            },
+            "& .MuiTypography-root": {
+              fontWeight: indiceActivo === index ? "bold" : "normal",
+            },
+            "&:hover": {
+              backgroundColor: "#810AAC",
+              color: "#fff",
+              "& .MuiAvatar-root": {
+                transform: "scale(1.1)",
+              },
+              "& .MuiTypography-root": {
+                fontWeight: "bold",
+              },
+            },
+          }}
+        >
+          <Avatar
+            src={item.image_background}
+            sx={{
+              width: 72,
+              height: 72,
+              transition: "transform 0.3s",
+            }}
+            variant="rounded"
+          />
+          <Typography
+            variant="body1"
+            sx={{ fontSize: "18px", transition: "font-weight 0.3s" }}
+          >
+            {item.name}
+          </Typography>
+        </Box>
+      ))}
+    </Box>
   );
 };
 

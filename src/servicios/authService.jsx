@@ -1,4 +1,4 @@
-import api from './api.js';
+import api from './api.jsx';
 import jwt from 'jsonwebtoken';
 
 export const login = async (usuario, password) =>{

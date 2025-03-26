@@ -1,7 +1,7 @@
 .home-container {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la pantalla */
+  height: 100vh; 
 }
 
 .home-content {
