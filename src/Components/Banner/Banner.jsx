@@ -8,10 +8,6 @@ export default function Banner({ juegoBanner }) {
 
   return (
     <Box position="relative" width={870} height={500}>
-      {/* Nombre del juego */}
-      
-
-      {/* Imagen del banner */}
       <Avatar
         src={juegoBanner.background_image}
         sx={{
@@ -40,6 +36,8 @@ export default function Banner({ juegoBanner }) {
 
       {/* Botón "Ver Guía" en la parte inferior izquierda */}
       <Button
+
+      
         variant="contained"
         sx={{
           position: "absolute",

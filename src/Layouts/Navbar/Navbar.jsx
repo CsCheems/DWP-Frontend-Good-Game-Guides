@@ -9,11 +9,9 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-//import "./Navbar.css";
 import ModalAuth from "../../Components/Modals/Modal";
 
 const Navbar = () => {
-  // Navigation menu items with paths
   const navItems = [
     { label: "INICIO", path: "/" },
     { label: "GUÍAS", path: "/guias" },

@@ -1,9 +1,9 @@
 import api from './api.jsx';
-import jwt from 'jsonwebtoken';
+
 
 export const login = async (usuario, password) =>{
     try {
-        const response = await api.post("/login", {usuario, password});
+        const response = await api.post("/auth/login", {usuario, password});
         if(response.data && response.data.token){
             localStorage.setItem("token", response.data.token);
         }else{
@@ -23,7 +23,8 @@ export const login = async (usuario, password) =>{
 
 export const registro = async (email, phone, dob, username, password) => {
     try {
-        const response = await api.post('/registraUsuario', {email, phone, dob, username, password});
+        const response = await api.post('/auth/registroUsuario', {email, phone, dob, username, password});
+        console.log(response.data);
         return response.data;
     } catch (error) {
         if (error.response) {
