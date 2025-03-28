@@ -6,10 +6,15 @@ import {
   Stack,
   TextField,
   Toolbar,
+  Typography,
+  Avatar,
+  IconButton,
 } from "@mui/material";
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import ModalAuth from "../../Components/Modals/Modal";
+import { useAuth } from "../../Context/AuthContext";
 
 const Navbar = () => {
   const navItems = [
@@ -19,7 +24,13 @@ const Navbar = () => {
     { label: "CONTACTO", path: "/contacto" },
   ];
 
+  const {user, logout} = useAuth();
+
   const [open, setOpen] = useState(false);
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <>
@@ -105,6 +116,18 @@ const Navbar = () => {
 
       {/* Login/Register Button */}
       <Box sx={{ flexGrow: 1 }} />
+
+      {user ? (
+        <Stack direction="row" spacing={2} alignItems="center">
+          <Typography sx={{ color: "white", fontWeight: "bold" }}>
+            {user.usuario}
+          </Typography>
+          <Avatar src={user.avatar || "/default-avatar.png"} />
+          <IconButton color="inherit" onClick={handleLogout}>
+            <ExitToAppIcon />
+          </IconButton>
+        </Stack>
+      ) : (
       <Button
         sx={{
           fontFamily: "Inter-Regular, Helvetica",
@@ -121,6 +144,7 @@ const Navbar = () => {
       >
         REGISTRO/LOGIN
       </Button>
+  )}
     </Toolbar>
   </AppBar>
   

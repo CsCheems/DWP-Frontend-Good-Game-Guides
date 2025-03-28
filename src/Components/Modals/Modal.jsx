@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Box, Button, TextField, Stack, Typography } from "@mui/material";
-import { registro } from "../../servicios/authService";
+import { registro, login } from "../../servicios/authService";
+import { useAuth } from "../../Context/AuthContext";
 
 const ModalAuth = ({ open, handleClose }) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -20,7 +21,7 @@ const ModalAuth = ({ open, handleClose }) => {
           left: "50%",
           transform: "translate(-50%, -50%)",
           width: 400,
-          background:"linear-gradient(90deg, rgba(127,8,170,1) 0%, rgba(217,111,255,1) 69%)",
+          background:"linear-gradient(90deg, rgb(175, 125, 193) 0%, rgba(217,111,255,1) 69%)",
           boxShadow: 24,
           p: 4,
           borderRadius: 2,
@@ -56,14 +57,48 @@ const ModalAuth = ({ open, handleClose }) => {
   );
 };
 
-const LoginForm = ({ handleClose }) => (
-  <Box>
-    <TextField fullWidth label="Usuario" margin="normal" sx={{ bgcolor:"white", borderRadius: "8px" }} />
-    <TextField fullWidth label="Contraseña" type="password" margin="normal" sx={{ bgcolor:"white", borderRadius: "8px" }} />
-    <Button fullWidth variant="contained" sx={{ mt: 2, background: "linear-gradient(90deg, rgba(30,69,95,1) 9%, rgba(0,186,130,1) 84%)" }}>Iniciar Sesión</Button>
+const LoginForm = ({ handleClose }) => {
+  const { setUser } = useAuth();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const validate = () =>{
+    if(username === "" || password === ""){
+      setError("Todos los campos son obligatorios");
+      return false;
+    }
+    setError("");
+    return true;
+  }
+
+  const handleLogin = async () => {
+    if (!validate()) return;
+
+    console.log("Intentando iniciar sesión...");
+    
+    const res = await login(username, password, setUser);
+
+    if (res.statusCode === 200) {
+        console.log("Login exitoso");
+        handleClose();
+    } else {
+        console.error("Error en login:", res.message);
+        setError(res.message);
+    }
+};
+
+  return(
+    <Box>
+    <TextField fullWidth label="Nombre de Usuario" value={username} onChange={(e) => setUsername(e.target.value)} margin="normal" sx={{ bgcolor: "white", borderRadius: "8px" }} />
+    <TextField fullWidth label="Contraseña" type="password" value={password} onChange={(e) => setPassword(e.target.value)} margin="normal" sx={{ bgcolor: "white", borderRadius: "8px" }} />
+    <Button fullWidth variant="contained" onClick={handleLogin} sx={{ mt: 2, background: "linear-gradient(90deg, rgba(30,69,95,1) 9%, rgba(0,186,130,1) 84%)" }}>Iniciar Sesión</Button>
+    {error && <Typography color="error" sx={{ mt: 1 }}>{error}</Typography>}
     <Button fullWidth variant="text" sx={{ mt: 2, color: "white" }}>Recuperar Contraseña</Button>
-  </Box>
-);
+    </Box>
+  );
+  
+};
 
 const RegisterForm = ({ handleClose }) => {
   const [email, setEmail] = useState("");

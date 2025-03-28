@@ -1,11 +1,16 @@
+import { useAuth } from '../Context/AuthContext.jsx';
 import api from './api.jsx';
 
 
-export const login = async (usuario, password) =>{
+export const login = async (username, password, setUser) =>{
+    console.log("Enviando credenciales:", username, password);
     try {
-        const response = await api.post("/auth/login", {usuario, password});
-        if(response.data && response.data.token){
-            localStorage.setItem("token", response.data.token);
+        const response = await api.post("/auth/login", {username, password});
+        if(response.data && response.data.result.token){
+            localStorage.setItem("token", response.data.result.token);
+            const userData = JSON.parse(atob(response.data.result.token.split(".")[1]));
+            console.log(userData);
+            setUser(userData);
         }else{
             throw new Error("Token no encontrado en la respuesta"); 
         }

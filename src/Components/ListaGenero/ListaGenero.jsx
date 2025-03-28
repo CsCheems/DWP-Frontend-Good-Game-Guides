@@ -4,13 +4,12 @@ import { Avatar, Box, Grid, Typography } from "@mui/material";
 export default function ListaGenero({listaJuegosPorGenero, nombreGenero}) {
 
     useEffect(() => {
-
-        console.log(listaJuegosPorGenero, nombreGenero);
+      
     }, [])
     return (
         <Box>
             <Typography sx={{marginTop:"25px", fontWeight:"bold", textAlign:"left"}} variant="h5" gutterBottom>
-                {nombreGenero}
+                Guias para {nombreGenero}
             </Typography>
 
             <Grid container spacing={2} sx={{marginTop:"10px", justifyContent:'center'}}>
