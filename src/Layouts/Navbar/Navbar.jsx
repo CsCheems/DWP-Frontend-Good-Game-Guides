@@ -15,6 +15,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import ModalAuth from "../../Components/Modals/Modal";
 import { useAuth } from "../../Context/AuthContext";
+import { buscarJuego } from "../../servicios/RawgAPI";
 
 const Navbar = () => {
   const navItems = [
@@ -25,11 +26,39 @@ const Navbar = () => {
   ];
 
   const {user, logout} = useAuth();
-
   const [open, setOpen] = useState(false);
+  const [juegos, setJuegos] = useState([]);
+  const [busqueda, setBusqueda] = useState("");
 
   const handleLogout = () => {
     logout();
+  };
+
+  const handleSearchChange = async (event) => {
+
+    const valor = event.target.value;
+    setBusqueda(valor);
+
+    if(valor.length > 2){
+      try {
+        const response = await buscarJuego(valor);
+        const resultado = response.data.results.map((juego) => ({
+          label: juego.name,
+          id: juego.id
+        }));
+        setJuegos(resultado);
+      } catch (error) {
+        console.error("Error al buscar juegos:", error);
+      }
+    }else{
+      setJuegos([])
+    }
+  };
+  
+  const handleSelect = (event, value) => {
+    if (value) {
+      navigate(`/juego/${value.id}`);
+    }
   };
 
   return (
@@ -84,10 +113,12 @@ const Navbar = () => {
       </Stack>
 
       {/* Contenedor centrado para la barra de búsqueda */}
-      <Box className="search-container">
+      <Box className="search-container" sx={{mx: 2}}>
         <Autocomplete
           freeSolo
-          options={[]}
+          options={juegos}
+          onChange={handleSelect}
+          onInputChange={handleSearchChange}
           sx={{
             width: 400,
             "& .MuiOutlinedInput-root": {
@@ -119,7 +150,17 @@ const Navbar = () => {
 
       {user ? (
         <Stack direction="row" spacing={2} alignItems="center">
-          <Typography sx={{ color: "white", fontWeight: "bold" }}>
+          <Typography
+            component={Link}
+            to="/perfil"
+            sx={{ 
+              color: "white", 
+              fontWeight: "bold", 
+              "&:hover": {
+                textShadow: "0 0 13px #fff",
+                textDecoration: 'none'
+              },  
+            }}>
             {user.usuario}
           </Typography>
           <Avatar src={user.avatar || "/default-avatar.png"} />

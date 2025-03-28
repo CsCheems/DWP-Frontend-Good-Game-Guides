@@ -1,18 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../Layouts/Navbar/Navbar';
-import './User.css';
-
+import { useAuth } from '../../Context/AuthContext';
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Avatar,
+  Grid,
+  Paper,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+} from '@mui/material';
 
 export default function User() {
+  const { user } = useAuth();
   const [userData, setUserData] = useState({
-    name: 'Jose Manuel Martinez Martinez',
-    email: 'chema@mail.com',
-    username: 'ChemaDev',
-    joinDate: '2025-01-15',
-    avatar: '/avatar.png',
+    phone: '',
+    email: '',
+    username: '',
+    avatar: '',
+    dob: '',
   });
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (user) {
+      setUserData({
+        phone: user.phone || '',
+        email: user.email || '',
+        username: user.usuario || '',
+        avatar: user.avatar || '/default-avatar.png',
+        dob: user.dob || 'Fecha no disponible',
+      });
+    }
+  }, [user]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -33,80 +57,74 @@ export default function User() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Datos actualizados:', userData);
+    
   };
 
   return (
     <>
-    <Navbar/>
-    <div className="user-container">
-      <form className="user-form" onSubmit={handleSubmit}>
-        <h2 className="user-title">Editar Perfil de {userData.name}</h2>
-
-        <div className="avatar-container">
-          <img className="avatar-image" src={userData.avatar} alt="Avatar" />
-          <label className="label" htmlFor="avatar">Cambiar Avatar</label>
-          <input
-            className="input"
-            type="file"
-            id="avatar"
-            name="avatar"
-            accept="image/*"
-            onChange={handleAvatarChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label className="label" htmlFor="name">Nombre</label>
-          <input
-            className="input"
-            type="text"
-            id="name"
-            name="name"
-            value={userData.name}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label className="label" htmlFor="email">Correo electrónico</label>
-          <input
-            className="input"
-            type="email"
-            id="email"
-            name="email"
-            value={userData.email}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label className="label" htmlFor="username">Nombre de usuario</label>
-          <input
-            className="input"
-            type="text"
-            id="username"
-            name="username"
-            value={userData.username}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label className="label" htmlFor="joinDate">Fecha de registro</label>
-          <input
-            className="input"
-            type="text"
-            id="joinDate"
-            name="joinDate"
-            value={userData.joinDate}
-            onChange={handleInputChange}
-            disabled
-          />
-        </div>
-
-        <button className="button" type="submit">Guardar cambios</button>
-      </form>
-    </div>
+      <Navbar />
+      <Container maxWidth="lg" sx={{ mt: 4, display: 'flex', gap: 2, marginTop: '50px' }}>
+        <Paper elevation={3} sx={{ p: 2, minWidth: 200, background: "linear-gradient(90deg, rgb(175, 125, 193) 0%, rgba(217,111,255,1) 69%)", color: 'white' }}>
+          <Typography variant="h5" sx={{fontWeight: "bold"}} gutterBottom>Opciones</Typography>
+          <List>
+            <ListItem button>
+              <ListItemText primary="Guías Favoritas" />
+            </ListItem>
+            <ListItem button>
+              <ListItemText primary="Foros de Discusión" />
+            </ListItem>
+            <Divider/>
+            <ListItem button>
+              <ListItemText primary="Seguridad" />
+            </ListItem>
+          </List>
+        </Paper>
+        <Paper elevation={3} sx={{ p: 3, flexGrow: 1, background: "linear-gradient(90deg, rgb(175, 125, 193) 0%, rgba(217,111,255,1) 69%)", color: 'white' }}>
+          <Typography variant="h5" gutterBottom sx={{fontWeight: "bold"}} >Perfil de {userData.username.toUpperCase()}</Typography>
+          <Box display="flex" justifyContent="center" mb={2}>
+            <Avatar src={userData.avatar} alt="Avatar" sx={{ width: 100, height: 100, mb: 2 }} />
+          </Box>
+          <Button variant="contained" component="label" fullWidth 
+            sx={{ 
+              mb: 2,
+              color: "white", 
+              background: "linear-gradient(90deg, rgba(30,69,95,1) 9%, rgba(0,186,130,1) 84%)",
+              border: "none",
+            }}>
+            Cambiar Avatar
+            <input type="file" hidden accept="image/*" onChange={handleAvatarChange} />
+          </Button>
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={2}>
+              {['username', 'email', 'phone', 'dob'].map((field) => (
+                <Grid item xs={12} key={field}>
+                  <TextField 
+                    fullWidth 
+                    label={field.charAt(0).toUpperCase() + field.slice(1)}
+                    name={field}
+                    value={userData[field]} 
+                    onChange={handleInputChange} 
+                    InputProps={{ style: { color: 'white', borderColor: 'white' } }}
+                    InputLabelProps={{ style: { color: 'white' } }}
+                    sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: 'white' } } }}
+                  />
+                </Grid>
+              ))}
+              <Grid item xs={12}>
+                <Button type="submit" variant="contained" 
+                  sx={{
+                    color: "white", 
+                    background: "linear-gradient(90deg, rgba(30,69,95,1) 9%, rgba(0,186,130,1) 84%)",
+                    border: "none",
+                  }}
+                  fullWidth>
+                  Guardar Cambios
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Paper>
+      </Container>
     </>
   );
 }

@@ -10,3 +10,5 @@ export const obtenerGenerosLista = rawgApi.get('/genres?key='+key);
 export const obtenerJuegos = rawgApi.get('/games?key='+key);
 
 export const obtenerGeneroPorId = (id) => rawgApi.get('/games?key='+key+'&genres='+id);
+
+export const buscarJuego = (query) => rawgApi.get(`/games?key=${key}&search=${query}`);
