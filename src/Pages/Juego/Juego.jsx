@@ -1,7 +1,10 @@
-import React from 'react'
+import React from 'react';
+import Navbar from '../../Layouts/Navbar/Navbar';
 
 export default function Juego() {
-  return (
-    <div>Juego</div>
-  )
+    return (
+        <div className="home-container">
+            <Navbar/>
+        </div>
+    );
 }
