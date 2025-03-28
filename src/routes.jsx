@@ -5,6 +5,7 @@ import User from './Pages/User/User';
 import Contact from './Pages/Contact/Contact';
 import InidiceGuias from './Pages/Guias/IndiceGuias';
 import IndiceForo from './Pages/Foro/IndiceForo';
+import Juego from './Pages/Juego/Juego';
 
 
 const AppRoutes = () => {
@@ -16,6 +17,7 @@ const AppRoutes = () => {
                 <Route path='/perfil' element={<User/>}/>
                 <Route path='/guias' element={<InidiceGuias/>}/>
                 <Route path='/foro' element={<IndiceForo/>}/>
+                <Route path="/juego/:id" element={<Juego />} />
             </Routes>
     );
 }

@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate  } from "react-router-dom";
 import ModalAuth from "../../Components/Modals/Modal";
 import { useAuth } from "../../Context/AuthContext";
 import { buscarJuego } from "../../servicios/RawgAPI";
@@ -24,6 +24,8 @@ const Navbar = () => {
     { label: "FORO", path: "/foro" },
     { label: "CONTACTO", path: "/contacto" },
   ];
+
+  const navigate = useNavigate();
 
   const {user, logout} = useAuth();
   const [open, setOpen] = useState(false);
