@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../../Layouts/Navbar/Navbar';
 
 import { Container, Grid, Typography } from '@mui/material';
-import Sidebar from '../../Layouts/Sidebar/Sidebar';
+import SidebarCategorias from '../../Layouts/Sidebar/Sidebar-categorias';
 import { obtenerGeneroPorId, obtenerJuegos } from '../../servicios/RawgAPI';
 import Banner from '../../Components/Banner/Banner';
 import GuiasPopulares from '../../Components/GuiasPopulares/GuiasPopulares';
@@ -39,7 +39,7 @@ const Home = () => {
       <Container sx={{marginTop:"75px"}}>
         <Grid  container spacing={2}>
           <Grid item xs={3}>
-            <Sidebar 
+            <SidebarCategorias 
             generoId={(generoId)=>obtenerListaPorGenero(generoId)}
             nombreGenero={(name)=>setNombreGenero(name)}
             />

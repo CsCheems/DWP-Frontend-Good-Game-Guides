@@ -35,9 +35,7 @@ export default function Banner({ juegoBanner }) {
         </Typography>
 
       {/* Botón "Ver Guía" en la parte inferior izquierda */}
-      <Button
-
-      
+      <Button  
         variant="contained"
         sx={{
           position: "absolute",
@@ -56,7 +54,6 @@ export default function Banner({ juegoBanner }) {
       >
         Ver Guía
       </Button>
-      
     </Box>
   );
 }

@@ -1,30 +1,43 @@
-import React, { useEffect, useState } from "react";
-import { obtenerGenerosLista } from "../../servicios/RawgAPI";
-import { Box, Typography, Avatar } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import { Box, Typography, Avatar } from '@mui/material';
+import { obtenerGeneroPorId } from "../../servicios/RawgAPI";
+import { useNavigate } from 'react-router-dom';
 
-const Sidebar = ({generoId, nombreGenero}) => {
-  const [generoLista, setGeneroLista] = useState([]);
+const SidebarJuegos = ({ generoId }) => {
+  const [juegos, setJuegos] = useState([]);
   const [indiceActivo, setIndiceActivo] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    obtenerGeneros();
-  }, []);
+    if (generoId) {
+      obtenerJuegosSimilares(generoId);
+    }
+  }, [generoId]);
 
-  const obtenerGeneros = () => {
-    obtenerGenerosLista.then((resp) => {
-      setGeneroLista(resp.data.results);
-    });
+  const obtenerJuegosSimilares = async (id) => {
+    try {
+      const response = await obtenerGeneroPorId(id);
+      setJuegos(response.data.results);
+    } catch (error) {
+      console.error("Error al obtener juegos similares:", error);
+    }
   };
 
+
+
   return (
+    
     <Box>
       <Typography variant="h5" sx={{ fontWeight: "bold" }} gutterBottom>
-        Géneros
+        Otros juegos similares
       </Typography>
-      {generoLista.map((item, index) => (
+      {juegos.map((juego, index) => (
+        
+       
+        
         <Box
-          key={index}
-          onClick={() => {setIndiceActivo(index); generoId(item.id); nombreGenero(item.name)}}
+          key={juego.id}
+          onClick={() => { setIndiceActivo(index); navigate(`/juego/${juego.id}`)}}
           display="flex"
           alignItems="center"
           gap={2}
@@ -56,7 +69,7 @@ const Sidebar = ({generoId, nombreGenero}) => {
           }}
         >
           <Avatar
-            src={item.image_background}
+            src={juego.background_image}
             sx={{
               width: 72,
               height: 72,
@@ -68,7 +81,7 @@ const Sidebar = ({generoId, nombreGenero}) => {
             variant="body1"
             sx={{ fontSize: "18px", transition: "font-weight 0.3s" }}
           >
-            {item.name}
+            {juego.name}
           </Typography>
         </Box>
       ))}
@@ -76,4 +89,4 @@ const Sidebar = ({generoId, nombreGenero}) => {
   );
 };
 
-export default Sidebar;
+export default SidebarJuegos;
