@@ -1,14 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Box, Button, TextField, Stack, Typography } from "@mui/material";
-import { registro, login } from "../../servicios/authService";
+import { registro, login, verificar2FA } from "../../servicios/authService";
 import { useAuth } from "../../Context/AuthContext";
+import RecoveryForm from "../RecoveryForm/RecoveryForm";
+
 
 const ModalAuth = ({ open, handleClose }) => {
+  const { setUser } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
+  const [is2FA, setIs2FA] = useState(false);
+  const [error, setError] = useState("");
+  const [authData, setAuthData] = useState(null);
+  const [require2FA, setRequire2FA] = useState(false);
+  const [isRecovery, setIsRecovery] = useState(false);
+
+  useEffect(() => {
+    console.log("isRecovery cambiado a: ", isRecovery);
+  }, [isRecovery]);
+
+  const handle2FAVerification = async (code) => {
+    try {
+      console.log(authData.username);
+      const response = await verificar2FA(code, authData.username, setUser);
+      if (response.statusCode === 200) {
+        setIs2FA(false);
+        handleClose(); 
+      }
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   return (
-    <Modal 
-      open={open} 
+    <Modal
+      open={open}
       onClose={handleClose}
       BackdropProps={{
         sx: { backdropFilter: "blur(6px)" }
@@ -21,7 +46,7 @@ const ModalAuth = ({ open, handleClose }) => {
           left: "50%",
           transform: "translate(-50%, -50%)",
           width: 400,
-          background:"linear-gradient(90deg, rgb(175, 125, 193) 0%, rgba(217,111,255,1) 69%)",
+          background: "linear-gradient(90deg, rgb(175, 125, 193) 0%, rgba(217,111,255,1) 69%)",
           boxShadow: 24,
           p: 4,
           borderRadius: 2,
@@ -30,7 +55,11 @@ const ModalAuth = ({ open, handleClose }) => {
         <Stack direction="row" spacing={2} justifyContent="center" mb={3}>
           <Button
             variant={isLogin ? "contained" : "outlined"}
-            onClick={() => setIsLogin(true)}
+            onClick={() => {
+              setIsLogin(true);
+              setIs2FA(false);
+              setError("");
+            }}
             sx={{
               color: "white",
               background: isLogin ? "linear-gradient(90deg, rgba(30,69,95,1) 9%, rgba(0,186,130,1) 84%)" : "transparent",
@@ -41,9 +70,13 @@ const ModalAuth = ({ open, handleClose }) => {
           </Button>
           <Button
             variant={!isLogin ? "contained" : "outlined"}
-            onClick={() => setIsLogin(false)}
+            onClick={() => {
+              setIsLogin(false);
+              setIs2FA(false);
+              setError("");
+            }}
             sx={{
-              color: "white", 
+              color: "white",
               background: !isLogin ? "linear-gradient(90deg, rgba(30,69,95,1) 9%, rgba(0,186,130,1) 84%)" : "transparent",
               border: "none",
             }}
@@ -51,53 +84,136 @@ const ModalAuth = ({ open, handleClose }) => {
             Registro
           </Button>
         </Stack>
-        {isLogin ? <LoginForm handleClose={handleClose}/> : <RegisterForm handleClose={handleClose}/>}
+
+        {is2FA ? (
+            <TwoFactorForm handleClose={handleClose} onSubmit={handle2FAVerification} error={error} />
+          ) : isRecovery ? (
+            <RecoveryForm 
+              handleClose={handleClose}
+            />
+          ) : isLogin ? (
+            <LoginForm 
+              setIs2FA={setIs2FA} 
+              setAuthData={setAuthData} 
+              handleClose={handleClose} 
+              setError={setError} 
+              setRequire2FA={setRequire2FA}
+              setIsRecovery={setIsRecovery}
+            />
+          ) : (
+            <RegisterForm handleClose={handleClose} />
+          )}
       </Box>
     </Modal>
   );
 };
 
-const LoginForm = ({ handleClose }) => {
+const LoginForm = ({ setIs2FA, setAuthData, handleClose, setError , setRequire2FA, setIsRecovery}) => {
   const { setUser } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
-  const validate = () =>{
-    if(username === "" || password === ""){
+  const validate = () => {
+    if (username === "" || password === "") {
       setError("Todos los campos son obligatorios");
       return false;
     }
     setError("");
     return true;
-  }
+  };
 
   const handleLogin = async () => {
     if (!validate()) return;
 
-    console.log("Intentando iniciar sesión...");
-    
-    const res = await login(username, password, setUser);
-
-    if (res.statusCode === 200) {
+    try {
+      const res = await login(username, password, setUser, setRequire2FA);
+      if (res && res.require2FA) {
+        console.log("Se requiere 2FA");
+        setAuthData({ username, password });
+        setIs2FA(true); 
+      } else if (res && res.data && res.data.statusCode === 200) {
         console.log("Login exitoso");
         handleClose();
-    } else {
-        console.error("Error en login:", res.message);
-        setError(res.message);
+      }
+    } catch (error) {
+      setError(error.message);
     }
 };
 
-  return(
+  return (
     <Box>
-    <TextField fullWidth label="Nombre de Usuario" value={username} onChange={(e) => setUsername(e.target.value)} margin="normal" sx={{ bgcolor: "white", borderRadius: "8px" }} />
-    <TextField fullWidth label="Contraseña" type="password" value={password} onChange={(e) => setPassword(e.target.value)} margin="normal" sx={{ bgcolor: "white", borderRadius: "8px" }} />
-    <Button fullWidth variant="contained" onClick={handleLogin} sx={{ mt: 2, background: "linear-gradient(90deg, rgba(30,69,95,1) 9%, rgba(0,186,130,1) 84%)" }}>Iniciar Sesión</Button>
-    {error && <Typography color="error" sx={{ mt: 1 }}>{error}</Typography>}
-    <Button fullWidth variant="text" sx={{ mt: 2, color: "white" }}>Recuperar Contraseña</Button>
+      <TextField
+        fullWidth
+        label="Nombre de Usuario"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        margin="normal"
+        sx={{ bgcolor: "white", borderRadius: "8px" }}
+      />
+      <TextField
+        fullWidth
+        label="Contraseña"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        margin="normal"
+        sx={{ bgcolor: "white", borderRadius: "8px" }}
+      />
+      <Button
+        fullWidth
+        variant="contained"
+        onClick={handleLogin}
+        sx={{
+          mt: 2,
+          background: "linear-gradient(90deg, rgba(30,69,95,1) 9%, rgba(0,186,130,1) 84%)"
+        }}
+      >
+        Iniciar Sesión
+      </Button>
+      <Button onClick={() => setIsRecovery(true)} fullWidth variant="text" sx={{ mt: 2, color: "white" }}>
+        Recuperar Contraseña
+      </Button>
     </Box>
   );
-  
+};
+
+
+
+const TwoFactorForm = ({ handleClose, onSubmit, error }) => {
+  const [code, setCode] = useState("");
+
+  const handleSubmit = () => {
+    if (code.trim() === "") {
+      error("El código no puede estar vacío");
+      return;
+    }
+    onSubmit(code);
+  };
+
+  return (
+    <Box>
+      <TextField
+        fullWidth
+        label="Código de Autenticación"
+        value={code}
+        onChange={(e) => setCode(e.target.value)}
+        margin="normal"
+        sx={{ bgcolor: "white", borderRadius: "8px" }}
+      />
+      <Button
+        fullWidth
+        variant="contained"
+        onClick={handleSubmit}
+        sx={{
+          mt: 2,
+          background: "linear-gradient(90deg, rgba(30,69,95,1) 9%, rgba(0,186,130,1) 84%)"
+        }}
+      >
+        Enviar
+      </Button>
+      {error && <Typography color="error" sx={{ mt: 1 }}>{error}</Typography>}
+    </Box>
+  );
 };
 
 const RegisterForm = ({ handleClose }) => {

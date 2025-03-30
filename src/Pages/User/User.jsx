@@ -15,6 +15,7 @@ import {
   ListItemText,
   Divider,
 } from '@mui/material';
+import Modal2FA from '../../Components/Modals/Modal2FA';
 
 export default function User() {
   const { user } = useAuth();
@@ -25,6 +26,8 @@ export default function User() {
     avatar: '',
     dob: '',
   });
+
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -63,6 +66,7 @@ export default function User() {
   return (
     <>
       <Navbar />
+      <Modal2FA open={open} handleClose={() => setOpen(false)}/>
       <Container maxWidth="lg" sx={{ mt: 4, display: 'flex', gap: 2, marginTop: '50px' }}>
         <Paper elevation={3} sx={{ p: 2, minWidth: 200, background: "linear-gradient(90deg, rgb(175, 125, 193) 0%, rgba(217,111,255,1) 69%)", color: 'white' }}>
           <Typography variant="h5" sx={{fontWeight: "bold"}} gutterBottom>Opciones</Typography>
@@ -73,8 +77,7 @@ export default function User() {
             <ListItem button>
               <ListItemText primary="Foros de Discusión" />
             </ListItem>
-            <Divider/>
-            <ListItem button>
+            <ListItem button onClick={() => setOpen(true)}>
               <ListItemText primary="Seguridad" />
             </ListItem>
           </List>

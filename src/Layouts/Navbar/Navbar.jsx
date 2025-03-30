@@ -27,7 +27,7 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  const {user, logout} = useAuth();
+  const { user, logout, openLoginModal, setOpenLoginModal } = useAuth();
   const [open, setOpen] = useState(false);
   const [juegos, setJuegos] = useState([]);
   const [busqueda, setBusqueda] = useState("");
@@ -37,10 +37,8 @@ const Navbar = () => {
   };
 
   const handleSearchChange = async (event) => {
-
     const valor = event.target.value;
     setBusqueda(valor);
-
     if(valor.length > 2){
       try {
         const response = await buscarJuego(valor);
@@ -65,7 +63,7 @@ const Navbar = () => {
 
   return (
     <>
-      <ModalAuth open={open} handleClose={() => setOpen(false)}/>
+      <ModalAuth open={openLoginModal} handleClose={() => setOpenLoginModal(false)} />
       <AppBar 
         sx={{
           position:"static",
@@ -183,7 +181,7 @@ const Navbar = () => {
             textShadow: "0 0 13px #fff",
           },
         }}
-        onClick={() => setOpen(true)}
+        onClick={() => setOpenLoginModal(true)}
       >
         REGISTRO/LOGIN
       </Button>
