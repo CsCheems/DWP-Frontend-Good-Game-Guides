@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import { Avatar, Box, Grid, Typography } from "@mui/material";
+import { useNavigate } from 'react-router-dom';
 
 export default function ListaGenero({listaJuegosPorGenero, nombreGenero}) {
-
+    const navigate = useNavigate();
     useEffect(() => {
       
     }, [])
@@ -16,6 +17,7 @@ export default function ListaGenero({listaJuegosPorGenero, nombreGenero}) {
                     {listaJuegosPorGenero.map((item, index) => (
                       <Grid key={index} item xs={12} sm={6} md={4}>
                         <Box position="relative" width="100%" height={300}
+                          onClick={() =>  navigate(`/juego/${item.id}`)}
                           sx={{
                             background: "linear-gradient(90deg, rgba(127,8,170,1) 0%, rgba(217,111,255,1) 69%)",
                             padding: "0px",

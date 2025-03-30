@@ -1,7 +1,9 @@
 import { Avatar, Box, Grid, Typography } from "@mui/material";
 import React, { useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 
 export default function GuiasPopulares({ guiasPopulares }) {
+  const navigate = useNavigate();
   useEffect(() => {
 
   }, []);
@@ -16,6 +18,7 @@ export default function GuiasPopulares({ guiasPopulares }) {
         {guiasPopulares.slice(0, 4).map((item, index) => (
           <Grid key={index} item xs={12} sm={6} md={3}>
             <Box position="relative" width="100%" height={300} p={1}
+              onClick={() =>  navigate(`/juego/${item.id}`)}
               sx={{"&:hover": {
               color: "#fff",
               "& .MuiAvatar-root": {
