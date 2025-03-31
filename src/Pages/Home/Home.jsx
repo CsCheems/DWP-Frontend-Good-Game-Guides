@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../../Layouts/Navbar/Navbar';
-
 import { Container, Grid, Typography } from '@mui/material';
 import SidebarCategorias from '../../Layouts/Sidebar/Sidebar-categorias';
 import { obtenerGeneroPorId, obtenerJuegos } from '../../servicios/RawgAPI';
